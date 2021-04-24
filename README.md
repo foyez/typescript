@@ -227,6 +227,9 @@ interface ICircleWithArea extends ICircle {
 }
 
 class Circle implements ICircleWithArea {
+  // Readonly properties are properties that can’t be changed once they’ve been set.
+  // A read-only property must be initialized at their declaration or in the constructor.
+  readonly counter: number = 0
   readonly id: string
   center: ICenter
   radius: number
@@ -244,3 +247,82 @@ class Circle implements ICircleWithArea {
 ```
 
 ## Generics
+
+> Generics offer a way to create reusable components. Generics provide a way to make components work with any data type and not restrict to one data type.
+
+```ts
+interface Queue<T> {
+  data: T[]
+  push: (t: T) => void
+  pop: () => T | undefined
+}
+
+interface Monkey {
+  name: string
+  color: string
+}
+
+class MonkeyQueue implements Queue<Monkey> {
+  data: Monkey[]
+
+  constructor() {
+    this.data = []
+  }
+
+  push(t: Monkey): void {
+    this.data.push(t)
+  }
+
+  pop(): Monkey | undefined {
+    return this.data.shift()
+  }
+}
+```
+
+## Abstract classes
+
+- `abstract` classes cannot be directly instantiated. Instead, the user must create some class that inherits from the abstract class.
+- abstract members cannot be directly accessed, and a child class must provide the functionality.
+
+```ts
+type ITrack = { title: string } | null
+
+abstract class AudioDevice {
+  protected isPlaying: boolean = false
+  protected currentTrack: ITrack = null
+
+  constructor() {}
+
+  play(track: ITrack): void {
+    this.currentTrack = track
+    this.isPlaying = true
+    this.handlePlayCurrentAudioTrack()
+  }
+
+  abstract handlePlayCurrentAudioTrack(): void
+}
+
+class Boombox extends AudioDevice {
+  constructor() {
+    super()
+  }
+
+  handlePlayCurrentAudioTrack() {
+    // Play through the boombox speakers
+  }
+}
+```
+
+## Special types
+
+### Type assertions
+
+```ts
+interface Person {
+  name: string
+  age: number
+}
+
+const person = {} as Person
+person.name = 'Foyez'
+```
