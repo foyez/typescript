@@ -441,3 +441,68 @@ const GenreTypes: { [index: number]: string } = {
   3: 'Pop',
 }
 ```
+
+## Type Guards
+
+> Type guards allow us to narrow down the type of an object within a conditional block.
+
+### Typeof Guard
+
+> Using typeof in a conditional block, the compiler will know the type of a variable to be different.
+
+```ts
+function example(x: number | boolean) {
+  if (typeof x === 'number') {
+    return x.toFixed(2)
+  }
+
+  return x
+}
+```
+
+### Instanceof Guard
+
+> We can conditionally rule out type possibilities by asserting if a class is or is not an instance of a particular class.
+
+```ts
+class MyResponse {
+  header = 'header example'
+  result = 'result example'
+  // ...
+}
+
+class MyError {
+  header = 'header example'
+  message = 'message example'
+  // ...
+}
+
+function example(x: MyResponse | MyError) {
+  function example(x: MyResponse | MyError) {
+    if (x instanceof MyResponse) {
+      console.log(x.message) // Error! Property 'message' does not exist on type 'MyRespo
+      console.log(x.result) // Okay
+    } else {
+      // TypeScript knows this must be MyError
+      console.log(x.message) // Okay
+      console.log(x.result) // Error! Property 'result' does not exist on type 'MyError'
+    }
+  }
+}
+```
+
+### In Guard
+
+```ts
+interface Person {
+  name: string
+  age: number
+}
+
+const person: Person = {
+  name; 'Foyez',
+  age: 27
+}
+
+const checkForName = 'name' in person // true
+```
