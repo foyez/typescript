@@ -279,6 +279,28 @@ class MonkeyQueue implements Queue<Monkey> {
 }
 ```
 
+Generic Class
+
+```ts
+class KeyValuePair<T, U> {
+  private key: T
+  private val: U
+
+  setKeyValue(key: T, val: U): void {
+    this.key = key
+    this.val = val
+  }
+
+  display(): void {
+    console.log(`Key = ${this.key}, val = ${this.val}`)
+  }
+}
+
+let kvp1 = new KeyValuePair<number, string>()
+kvp1.setKeyValue(1, 'Steve')
+kvp1.display() //Output: Key = 1, Val = Steve
+```
+
 ## Abstract classes
 
 - `abstract` classes cannot be directly instantiated. Instead, the user must create some class that inherits from the abstract class.
@@ -325,4 +347,97 @@ interface Person {
 
 const person = {} as Person
 person.name = 'Foyez'
+```
+
+### The "type" keyword
+
+```ts
+type Person = {
+  name: string
+  age: number
+}
+```
+
+### Type aliases
+
+```ts
+// Primitive
+type Name = string
+
+// Tuple
+type Data = [number, string]
+
+// Object
+type PointX = { x: number }
+type PointY = { y: number }
+
+// Union (Or - At least one required)
+type IncompletePoint = PointX | PointY
+
+// Extends/Intersection (And - All required)
+type Point = PointX & PointY
+
+const pX: PointX = { x: 1 }
+const incompletePoint: IncompletePoint = { x: 1 }
+const point: Point = { x: 1 } // Error Property 'y' is missing
+// in type '{ x: number; }' but
+```
+
+### Enum
+
+> An enum is a way to organize a collection of related values.
+
+```ts
+enum Instrument {
+  Guitar,
+  Bass,
+  Keyboard,
+  Drums,
+}
+
+/*
+enum Instrument {
+  Guitar = 'GUITAR',
+  Bass = 'BASS',
+  Keyboard = 'KEYBOARD',
+  Drums = 'DRUMS'
+}
+*/
+
+let instrument = Instrument.Guitar // or, Instrument[0]
+
+instrument = 'screwdriver' /* Error! Type '"screwdriver"'
+is not assignable to type 'Instrument'.
+*/
+```
+
+### any
+
+> any is a type that we can used with all types.
+
+```ts
+let anything: any = 'anyone'
+anything = 3
+```
+
+In legacy projects migrating to TypeScript, it’s not uncommon to temporarily type things as any before adding more specific types over time during refactoring.
+
+### void
+
+> void is the absence of having any return type.
+
+```ts
+function greet(name: string): void {
+  console.log(`Hello, ${name}`)
+}
+```
+
+### Literal types
+
+```ts
+const GenreTypes: { [index: number]: string } = {
+  1: 'Metal',
+  2: 'Rap',
+  3: 'Pop',
+}
 ```
