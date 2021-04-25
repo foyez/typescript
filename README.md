@@ -432,6 +432,35 @@ function greet(name: string): void {
 }
 ```
 
+### never
+
+> never indicates th values that will never occur.
+
+The never type is used when you are sure that something is never going to occur. For example, you write a function which will not return to its end point or always throws an exception.
+
+```ts
+function throwError(errorMsg: string): never {
+  throw new Error(errorMsg)
+}
+
+function keepProcessing(): never {
+  while (true) {
+    console.log('I always does something and never ends.')
+  }
+}
+```
+
+### unknown
+
+> TypeScript 3.0 introduces the unknown type which is the type-safe counterpart of any. Anything is assignable to unknown, but unknown isn’t assignable to anything but itself and any. No operations are permitted on an unknown without first asserting or narrowing to a more specific type.
+
+```ts
+type I1 = unknown & null // null
+type I2 = unknown & string // string
+type U1 = unknown | null // unknown
+type U2 = unknown | string // unknown
+```
+
 ### Literal types
 
 ```ts
