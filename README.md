@@ -335,6 +335,88 @@ class Boombox extends AudioDevice {
 }
 ```
 
+## Readonly<Type>
+
+> Constructs a type with all properties of Type set to readonly, meaning the properties of the constructed type cannot be reassigned.
+
+```ts
+interface Todo {
+  title: string
+}
+
+const todo: Readonly<Todo> = {
+  title: 'Delete inactive users',
+}
+
+todo.title = 'Hello' // Cannot assign to 'title' because it is a read-only property.
+```
+
+## Record<Keys, Type>
+
+> Constructs an object type whose property keys are `Keys` and whose property values are `Type`. This utility can be used to map the properties of a type to another type.
+
+```ts
+interface CatInfo {
+  age: number
+  breed: string
+}
+
+type CatName = 'miffy' | 'boris' | 'mordred'
+
+const cats: Record<CatName, CatInfo> = {
+  miffy: { age: 10, breed: 'Persian' },
+  boris: { age: 5, breed: 'Maine Coon' },
+  mordred: { age: 16, breed: 'British Shorthair' },
+}
+```
+
+## Pick<Type, Keys>
+
+> Constructs a type by picking the set of properties `Keys` (string literal or union of string literals) from `Type`.
+
+```ts
+interface Todo {
+  title: string
+  description: string
+  completed: boolean
+}
+
+type TodoPreview = Pick<Todo, 'title' | 'completed'>
+
+const todo: TodoPreview = {
+  title: 'Clean room',
+  completed: false,
+}
+```
+
+## Omit<Type, Keys>
+
+> Constructs a type by picking all properties from `Type` and then removing `Keys` (string literal or union of string literals).
+
+```ts
+interface Todo {
+  title: string
+  description: string
+  completed: boolean
+  createdAt: number
+}
+
+type TodoPreview = Omit<Todo, 'description'>
+
+const todo: TodoPreview = {
+  title: 'Clean room',
+  completed: false,
+  createdAt: 1615544252770,
+}
+
+type TodoInfo = Omit<Todo, 'completed' | 'createdAt'>
+
+const todoInfo: TodoInfo = {
+  title: 'Pick up kids',
+  description: 'Kindergarten closes at 5pm',
+}
+```
+
 ## Special types
 
 ### Type assertions
@@ -383,7 +465,7 @@ const point: Point = { x: 1 } // Error Property 'y' is missing
 // in type '{ x: number; }' but
 ```
 
-### Enum
+### Enum (enumeration)
 
 > An enum is a way to organize a collection of related values.
 
@@ -409,6 +491,17 @@ let instrument = Instrument.Guitar // or, Instrument[0]
 instrument = 'screwdriver' /* Error! Type '"screwdriver"'
 is not assignable to type 'Instrument'.
 */
+```
+
+### tuple
+
+> tuple is an organized array where type of a fixed number of elements is known
+
+```ts
+let contact: [string, number] = ['Foyez', 485743]
+
+contact = ['Ana', 842903, 'extra argument'] /* Error! 
+Type '[string, number, string]' is not assignable to type '[string, number]'. */
 ```
 
 ### any
