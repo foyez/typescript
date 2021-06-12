@@ -628,3 +628,24 @@ const person: Person = {
 
 const checkForName = 'name' in person // true
 ```
+  
+## Tricks
+  
+### Constrained Identity Function (CIF) <sup>[guide](https://kentcdodds.com/blog/how-to-write-a-constrained-identity-function-in-typescript)</sup>
+  
+```ts
+type OperationFn = (left: number, right: number) => number
+const createOperations = <OperationsType extends Record<string, OperationFn>>(
+  opts: OperationsType
+) => opts
+
+const operations = createOperations({
+  '+': (left, right) => left + right,
+  '-': (left, right) => left - right,
+  '*': (left, right) => left * right,
+  '/': (left, right) => left / right,
+})
+
+const result = operations['-'](10, 4)
+console.log(result) // 6
+```
