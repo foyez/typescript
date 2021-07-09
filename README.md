@@ -629,7 +629,7 @@ const person: Person = {
 const checkForName = 'name' in person // true
 ```
 
-### Type Predict
+### Type Predict <sup>[guide](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates)</sup>
 
 ```ts
 // parameterName is Type
