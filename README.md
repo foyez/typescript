@@ -416,6 +416,16 @@ const todoInfo: TodoInfo = {
   description: "Kindergarten closes at 5pm",
 };
 ```
+  
+## ReturnType<Type>
+  
+> Constructs a type consisting of the return type of __function__ Type.
+  
+```ts
+const greetings = (name: string): string => `Hello, ${name}`
+  
+type funcReturnType = ReturnType<typeof greetings> // string
+```
 
 ## Special types
 
