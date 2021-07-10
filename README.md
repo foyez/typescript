@@ -417,7 +417,7 @@ const todoInfo: TodoInfo = {
 };
 ```
   
-## ReturnType<Type>
+## ReturnType`<Type>`
   
 > Constructs a type consisting of the return type of __function__ Type.
   
