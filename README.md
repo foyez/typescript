@@ -313,8 +313,8 @@ function createNode<T>(value: T): Link<T> {
   return { value }
 }
 
-const createNodeArrow = <T>(value: T) => ({ value })
-const createNodeArrowAlt = <T extends unknown>(value: T) => ({ value })
+const createNodeArrow = <T>(value: T): Link<T> => ({ value })
+const createNodeArrowAlt = <T extends unknown>(value: T): Link<T> => ({ value })
 
 const node = createNode<string>('wow')
 const anotherNode: Link<number> = createNode(2)
