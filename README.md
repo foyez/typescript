@@ -279,7 +279,7 @@ class MonkeyQueue implements Queue<Monkey> {
 }
 ```
 
-Generic Class
+**Generic Class**
 
 ```ts
 class KeyValuePair<T, U> {
@@ -299,6 +299,26 @@ class KeyValuePair<T, U> {
 let kvp1 = new KeyValuePair<number, string>();
 kvp1.setKeyValue(1, "Steve");
 kvp1.display(); //Output: Key = 1, Val = Steve
+```
+
+**Generics Function**
+
+```ts
+type Link<T> = {
+  value: T
+  next?: Link<T>
+}
+
+function createNode<T>(value: T): Link<T> {
+  return { value }
+}
+
+const createNodeArrow = <T>(value: T) => ({ value })
+const createNodeArrowAlt = <T extends unknown>(value: T) => ({ value })
+
+const node = createNode<string>('wow')
+const anotherNode: Link<number> = createNode(2)
+const boolNode = createNode(true)
 ```
 
 ## Abstract classes
