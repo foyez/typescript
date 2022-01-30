@@ -344,6 +344,26 @@ const anotherNode: Link<number> = createNode(2)
 const boolNode = createNode(true)
 ```
   
+**Extending Generic**
+  
+```ts
+const greeting = <T extends { name: string }>(obj: T)=>{}
+
+greeting({name: "Foyez", age: 18})
+```
+
+In T, must contain { name: string }. Extra properties are also acceptable.
+  
+```ts
+function func<T extends {}>(param: T){}
+  
+func(8)
+func(null) // error
+func(undefined) // error
+```
+  
+T extends {} accepts anything but `null` and `undefined`.
+  
 </details>
 
 ## Abstract classes
