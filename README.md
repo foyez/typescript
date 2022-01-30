@@ -9,6 +9,9 @@
 
 ## Typescript type annotation
 
+<details>
+<summary>View contents</summary>
+
 > There are 4 primary types in Typescript
 
 1. Implicit
@@ -130,8 +133,13 @@ declare var $: {
 $(".cls").show(); // okay
 $(123).show(); // Error
 ```
+  
+</details>
 
 ## Typescript in OOP
+  
+<details>
+<summary>View contents</summary>
 
 ```ts
 class Point {
@@ -179,8 +187,13 @@ class Point3D extends Point {
 const p = new Point3D(0, 10, 20);
 console.log(Point3D.instancesCreated);
 ```
+  
+</details>
 
 ## Access Modifier
+  
+<details>
+<summary>View contents</summary>
 
 > There are 3 access modifiers: public, protected and private
 
@@ -205,7 +218,12 @@ A method or member/attribute with a `protected` modifier can access through:
 
 > by default, the property is public if no access modifier is included
 
+</details>
+  
 ## Interfaces
+  
+<details>
+<summary>View contents</summary>
 
 > Interfaces allow us to declare the structure of classes and variables.
 
@@ -246,7 +264,12 @@ class Circle implements ICircleWithArea {
 }
 ```
 
+</details>
+  
 ## Generics
+
+<details>
+<summary>View contents</summary>
 
 > Generics offer a way to create reusable components. Generics provide a way to make components work with any data type and not restrict to one data type.
 
@@ -320,8 +343,13 @@ const node = createNode<string>('wow')
 const anotherNode: Link<number> = createNode(2)
 const boolNode = createNode(true)
 ```
+  
+</details>
 
 ## Abstract classes
+  
+<details>
+<summary>View contents</summary>
 
 - `abstract` classes cannot be directly instantiated. Instead, the user must create some class that inherits from the abstract class.
 - abstract members cannot be directly accessed, and a child class must provide the functionality.
@@ -354,7 +382,8 @@ class Boombox extends AudioDevice {
   }
 }
 ```
-
+</details>
+  
 ## Readonly<Type>
 
 > Constructs a type with all properties of Type set to readonly, meaning the properties of the constructed type cannot be reassigned.
@@ -703,6 +732,9 @@ console.log(result); // 6
 ```
   
 ## Type Utilities
+
+<details>
+<summary>View contents</summary>
   
 ```ts
 /**
@@ -873,3 +905,5 @@ type LowercaseWes = Lowercase<'Wes'>
 type CapitalizeWes = Capitalize<'wes'>
 type UncapitalizeWes = Uncapitalize<'Wes'>
 ```
+
+</details>
