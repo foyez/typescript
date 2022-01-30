@@ -477,6 +477,9 @@ type funcReturnType = ReturnType<typeof greetings> // string
 ```
 
 ## Special types
+  
+<details>
+<summary>View contents</summary>
 
 ### Type assertions
 
@@ -622,8 +625,13 @@ const GenreTypes: { [index: number]: string } = {
   3: "Pop",
 };
 ```
+  
+</details>
 
 ## Type Guards
+  
+<details>
+<summary>View contents</summary>
 
 > Type guards allow us to narrow down the type of an object within a conditional block.
 
@@ -709,6 +717,8 @@ Before the type guard is called, the actual type of the variable _comment_ is no
 But after the call, if the code proceeds past the exception (that is the type guard returned true), compiler knows that _comment_ is of the type _string_:
 
 ![Type Predict](./assets/type-predict-2.png)
+  
+</details>
 
 ## Tricks
 
