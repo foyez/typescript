@@ -1,4 +1,6 @@
-# Typescript at a glance
+# Typescript
+
+**[Typescript Playground](https://www.typescriptlang.org/play)**
 
 - `Typescript` is a **superset of Javascript**. That means, all Javascript is valid Typescript
 
