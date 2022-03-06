@@ -810,7 +810,7 @@ const result = operations["-"](10, 4);
 console.log(result); // 6
 ```
   
-## Type Utilities
+## Cheatsheet
 
 <details>
 <summary>View contents</summary>
