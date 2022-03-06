@@ -917,7 +917,7 @@ type Extra1 = Extra<1 | 'a' | 2 | 'b', number> // Inferred Type: 1 | 2
 type Extra2 = Extra<1 | 'a' | 2 | 'b', 1 | 'b'> // 1 | 'b'
 ```
 
-### `Pick<Types> - Pick out certain keys from an object type
+### `Pick<Types>` - Pick out certain keys from an object type
 
 ```ts
 type ObjLiteralType = {
