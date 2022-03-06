@@ -814,64 +814,53 @@ console.log(result); // 6
 
 <details>
 <summary>View contents</summary>
+
+### `keyof` - Get all of the keys from a given type
   
 ```ts
-/**
- * keyof
- * Get all of the keys from a given type
- */
-
 type ObjectLiteralType = {
   first: 1
   second: 2
 }
 
-// Inferred Type: "first" | "second"
-type Result = keyof ObjectLiteralType
-
+type Result = keyof ObjectLiteralType // Inferred Type: "first" | "second"
 const k: Result = 'second'
+```
 
-/**
- * Getting the type of a single key
- */
+## Getting the type of a single key
 
+```ts
 type Obj = {
   1: 'a'
   prop: 'c'
 }
 
-// Inferred Type: "a"
-type Res1 = Obj[1]
+type Res1 = Obj[1] // Inferred Type: "a"
 const s: Res1 = 'a'
 
-// Inferred Type: "a" | "c"
-type Res2 = Obj[1 | 'prop']
+type Res2 = Obj[1 | 'prop'] // Inferred Type: "a" | "c"
 const s2: Res2 = 'c'
+```
 
-/**
- * Getting the values from an object
- */
+### Getting the values from an object
+
+```ts
 type ObjVal = {
   a: 'A'
   b: 'B'
 }
 
-// Inferred Type: "A" | "B"
-type Values = ObjVal[keyof ObjVal]
+type Values = ObjVal[keyof ObjVal] // Inferred Type: "A" | "B"
+```
 
-/**
- * Unions
- */
+### Union
+
+```ts
 type A = 'a' | 'b'
 type B = 'b' | 'c'
+type Union = A | B // Inferred Type: "a" | "b" | "c"
 
-// Inferred Type: "a" | "b" | "c"
-type Union = A | B
-
-/**
- * Unions with Objects
- */
-
+// Unions with Objects
 type ObjTypeA = {
   firstProp: number
   sharedProp: string
@@ -884,72 +873,53 @@ type ObjTypeB = {
 
 // Inferred Type: { firstProp: number; secondProp: boolean; sharedProp: string }
 type UnionWithObj = ObjTypeA | ObjTypeB
-const t: UnionWithObj = {
-  firstProp: 10,
-  secondProp: false,
-  sharedProp: 'hi',
-}
+const t: UnionWithObj = { firstProp: 10, secondProp: false, sharedProp: 'hi' }
+```
 
-/**
- * Intersection
- * Only what appears in both
- */
+### Intersection - Only what appears in both
 
+```ts
 type A1 = 'a' | 'b' | 'c'
 type A2 = 'b' | 'c' | 'd'
 
-// Inferred Type: 'b' | 'c'
-type Intersection = A1 & A2
+type Intersection = A1 & A2 // Inferred Type: 'b' | 'c'
+```
 
-/**
- * Conditionals
- * Ternaries only
- */
+### Conditionals
+
+```ts
+// Ternaries only
 type Wrap<T> = T extends { length: number } ? [T] : T
 
 type IsAssignableTo<A, B> = A extends B ? true : false
 
 // Type `123` is assignable to type `number`
-// Inferred Type: true
-type Result1 = IsAssignableTo<123, number>
+type Result1 = IsAssignableTo<123, number> // Inferred Type: true
+type Result2 = IsAssignableTo<number, 123> // Inferred Type: false
+```
 
-// Inferred Type: false
-type Result2 = IsAssignableTo<number, 123>
+### Exclude - Removes values from a union
 
-/**
- * Exclude
- * Removes values from a union
- */
+```ts
 type Ex<T, U> = T extends U ? never : T
 
-// Inferred Type: 1 | 3
-type Ex1 = Ex<1 | 2 | 3, 2>
+type Ex1 = Ex<1 | 2 | 3, 2> // Inferred Type: 1 | 3
+type Ex2 = Ex<1 | 'a' | 2 | 'b', number> // Inferred Type: 'a' | 'b'
+type Ex3 = Ex<1 | 'a' | 2 | 'b', 1 | 'b' | 'c'> // Inferred Type: 'a' | 2
+```
 
-// Inferred Type: 'a' | 'b'
-type Ex2 = Ex<1 | 'a' | 2 | 'b', number>
+### Extract - Extracts only specific type of values
 
-// Inferred Type: 'a' | 2
-type Ex3 = Ex<1 | 'a' | 2 | 'b', 1 | 'b' | 'c'>
-
-/**
- * Extract
- *
- * Extracts only specific type of values
- */
-
+```ts
 type Extra<T, U> = T extends U ? T : never
 
-// Inferred Type: 1 | 2
-type Extra1 = Extra<1 | 'a' | 2 | 'b', number>
+type Extra1 = Extra<1 | 'a' | 2 | 'b', number> // Inferred Type: 1 | 2
+type Extra2 = Extra<1 | 'a' | 2 | 'b', 1 | 'b'> // 1 | 'b'
+```
 
-// 1 | 'b'
-type Extra2 = Extra<1 | 'a' | 2 | 'b', 1 | 'b'>
+### `Pick<Types> - Pick out certain keys from an object type
 
-/**
- * Pick
- * Pick out certain keys from an object type
- */
-
+```ts
 type ObjLiteralType = {
   john: 1
   paul: 2
@@ -957,14 +927,12 @@ type ObjLiteralType = {
   ringo: 4
 }
 
-// Inferred Type: {george: 2; ringo: 4; }
-type P = Pick<ObjLiteralType, 'george' | 'ringo'>
+type P = Pick<ObjLiteralType, 'george' | 'ringo'> // Inferred Type: {george: 2; ringo: 4; }
+```
 
-/**
- * Omit
- * Leave out particular properties
- */
+### `Omit<Types>` - Leave out particular properties
 
+```ts
 type ObjLiteralType1 = {
   john: 1
   paul: 2
@@ -972,17 +940,16 @@ type ObjLiteralType1 = {
   ringo: 4
 }
 
-// Inferred Type: {john: 1; paul: 2; }
-type O = Omit<ObjLiteralType1, 'george' | 'ringo'>
+type O = Omit<ObjLiteralType1, 'george' | 'ringo'> // Inferred Type: {john: 1; paul: 2; }
+```
 
-/**
- * String Manipulation
- */
+### String Manipulation
 
-type UppercaseWes = Uppercase<'wes'>
-type LowercaseWes = Lowercase<'Wes'>
-type CapitalizeWes = Capitalize<'wes'>
-type UncapitalizeWes = Uncapitalize<'Wes'>
+```ts
+type UppercaseWes = Uppercase<'wes'> // WES
+type LowercaseWes = Lowercase<'Wes'> // wes
+type CapitalizeWes = Capitalize<'wes'> // Wes
+type UncapitalizeWes = Uncapitalize<'WEs'> // wEs
 ```
 
 </details>
