@@ -404,9 +404,54 @@ class Boombox extends AudioDevice {
   }
 }
 ```
+
 </details>
   
-## Readonly<Type>
+## Utility Types <sup>[ref](https://www.typescriptlang.org/docs/handbook/utility-types.html)</sup>
+  
+<details>
+<summary>View contents</summary>
+  
+### Partial<Type>
+  
+> Constructs a type with all properties of Type set to optional. 
+  
+```ts
+interface Todo {
+  title: string;
+  description: string;
+}
+ 
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+  return { ...todo, ...fieldsToUpdate };
+}
+ 
+const todo1 = {
+  title: "organize desk",
+  description: "clear clutter",
+};
+ 
+const todo2 = updateTodo(todo1, {
+  description: "throw out trash",
+});
+```
+  
+### Required<Type>
+
+> Constructs a type consisting of all properties of Type set to required. The opposite of Partial.
+
+```ts
+interface Props {
+  a?: number;
+  b?: string;
+}
+ 
+const obj: Props = { a: 5 };
+ 
+const obj2: Required<Props> = { a: 5 }; // Property 'b' is missing in type '{ a: number; }' but required in type 'Required<Props>'.
+```
+  
+### Readonly<Type>
 
 > Constructs a type with all properties of Type set to readonly, meaning the properties of the constructed type cannot be reassigned.
 
@@ -422,7 +467,7 @@ const todo: Readonly<Todo> = {
 todo.title = "Hello"; // Cannot assign to 'title' because it is a read-only property.
 ```
 
-## Record<Keys, Type>
+### Record<Keys, Type>
 
 > Constructs an object type whose property keys are `Keys` and whose property values are `Type`. This utility can be used to map the properties of a type to another type.
 
@@ -441,7 +486,7 @@ const cats: Record<CatName, CatInfo> = {
 };
 ```
 
-## Pick<Type, Keys>
+### Pick<Type, Keys>
 
 > Constructs a type by picking the set of properties `Keys` (string literal or union of string literals) from `Type`.
 
@@ -460,7 +505,7 @@ const todo: TodoPreview = {
 };
 ```
 
-## Omit<Type, Keys>
+### Omit<Type, Keys>
 
 > Constructs a type by picking all properties from `Type` and then removing `Keys` (string literal or union of string literals).
 
@@ -488,7 +533,7 @@ const todoInfo: TodoInfo = {
 };
 ```
   
-## ReturnType`<Type>`
+### ReturnType`<Type>`
   
 > Constructs a type consisting of the return type of __function__ Type.
   
@@ -497,6 +542,8 @@ const greetings = (name: string): string => `Hello, ${name}`
   
 type funcReturnType = ReturnType<typeof greetings> // string
 ```
+  
+</details>
 
 ## Special types
   
