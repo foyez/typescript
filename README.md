@@ -917,7 +917,7 @@ type Extra1 = Extra<1 | 'a' | 2 | 'b', number> // Inferred Type: 1 | 2
 type Extra2 = Extra<1 | 'a' | 2 | 'b', 1 | 'b'> // 1 | 'b'
 ```
 
-### `Pick<Types>` - Pick out certain keys from an object type
+### `Pick<Types, Keys>` - Pick out certain keys from an object type
 
 ```ts
 type ObjLiteralType = {
@@ -930,7 +930,7 @@ type ObjLiteralType = {
 type P = Pick<ObjLiteralType, 'george' | 'ringo'> // Inferred Type: {george: 2; ringo: 4; }
 ```
 
-### `Omit<Types>` - Leave out particular properties
+### `Omit<Types, Keys>` - Leave out particular properties
 
 ```ts
 type ObjLiteralType1 = {
@@ -941,6 +941,46 @@ type ObjLiteralType1 = {
 }
 
 type O = Omit<ObjLiteralType1, 'george' | 'ringo'> // Inferred Type: {john: 1; paul: 2; }
+```
+
+### Accept anything but `null` and `undefined` in Generic
+
+```ts
+function func<T extends {}>(param: T){}
+  
+func(8)
+func(null) // Argument of type 'null' is not assignable to parameter of type '{}'
+func(undefined) // Argument of type 'undefined' is not assignable to parameter of type '{}'
+```
+
+### Must contain a specific type with extra properties
+
+```ts
+const greeting = <T extends { name: string }>(obj: T) => {}
+greeting({name: "Foyez", age: 18})
+greeting({ age: 18}) // error
+```
+
+### More specify `Union` types
+
+```ts
+interface User {
+  name: string
+  age: number
+}
+
+interface Admin {
+  name: string
+  role: string
+}
+
+function logPersion(person: User | Admin) {
+  if(person.age) { // Property 'age' does not exist on type 'User | Admin'. Property 'age' does not exist on type 'Admin'
+  }
+  if ('role' in person) {
+    // work with Admin
+  }
+}
 ```
 
 ### String Manipulation
