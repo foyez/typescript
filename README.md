@@ -135,11 +135,11 @@ declare var $: {
 $(".cls").show(); // okay
 $(123).show(); // Error
 ```
-  
+
 </details>
 
 ## Typescript in OOP
-  
+
 <details>
 <summary>View contents</summary>
 
@@ -189,11 +189,11 @@ class Point3D extends Point {
 const p = new Point3D(0, 10, 20);
 console.log(Point3D.instancesCreated);
 ```
-  
+
 </details>
 
 ## Access Modifier
-  
+
 <details>
 <summary>View contents</summary>
 
@@ -330,46 +330,48 @@ kvp1.display(); //Output: Key = 1, Val = Steve
 
 ```ts
 type Link<T> = {
-  value: T
-  next?: Link<T>
-}
+  value: T;
+  next?: Link<T>;
+};
 
 function createNode<T>(value: T): Link<T> {
-  return { value }
+  return { value };
 }
 
-const createNodeArrow = <T>(value: T): Link<T> => ({ value })
-const createNodeArrowAlt = <T extends unknown>(value: T): Link<T> => ({ value })
+const createNodeArrow = <T>(value: T): Link<T> => ({ value });
+const createNodeArrowAlt = <T extends unknown>(value: T): Link<T> => ({
+  value,
+});
 
-const node = createNode<string>('wow')
-const anotherNode: Link<number> = createNode(2)
-const boolNode = createNode(true)
+const node = createNode<string>("wow");
+const anotherNode: Link<number> = createNode(2);
+const boolNode = createNode(true);
 ```
-  
-**Extending Generic**
-  
-```ts
-const greeting = <T extends { name: string }>(obj: T)=>{}
 
-greeting({name: "Foyez", age: 18})
+**Extending Generic**
+
+```ts
+const greeting = <T extends { name: string }>(obj: T) => {};
+
+greeting({ name: "Foyez", age: 18 });
 ```
 
 In T, must contain { name: string }. Extra properties are also acceptable.
-  
+
 ```ts
-function func<T extends {}>(param: T){}
-  
-func(8)
-func(null) // error
-func(undefined) // error
+function func<T extends {}>(param: T) {}
+
+func(8);
+func(null); // error
+func(undefined); // error
 ```
-  
+
 T extends {} accepts anything but `null` and `undefined`.
-  
+
 </details>
 
 ## Abstract classes
-  
+
 <details>
 <summary>View contents</summary>
 
@@ -445,12 +447,12 @@ interface Props {
   a?: number;
   b?: string;
 }
- 
+
 const obj: Props = { a: 5 };
- 
+
 const obj2: Required<Props> = { a: 5 }; // Property 'b' is missing in type '{ a: number; }' but required in type 'Required<Props>'.
 ```
-  
+
 ### Readonly<Type>
 
 > Constructs a type with all properties of Type set to readonly, meaning the properties of the constructed type cannot be reassigned.
@@ -532,21 +534,21 @@ const todoInfo: TodoInfo = {
   description: "Kindergarten closes at 5pm",
 };
 ```
-  
+
 ### ReturnType`<Type>`
-  
-> Constructs a type consisting of the return type of __function__ Type.
-  
+
+> Constructs a type consisting of the return type of **function** Type.
+
 ```ts
-const greetings = (name: string): string => `Hello, ${name}`
-  
-type funcReturnType = ReturnType<typeof greetings> // string
+const greetings = (name: string): string => `Hello, ${name}`;
+
+type funcReturnType = ReturnType<typeof greetings>; // string
 ```
-  
+
 </details>
 
 ## Special types
-  
+
 <details>
 <summary>View contents</summary>
 
@@ -660,23 +662,81 @@ function greet(name: string): void {
 
 > never indicates th values that will never occur.
 
-The never type is used when you are sure that something is never going to occur. For example, you write a function which will not return to its end point or always throws an exception.
+The never type is used when you are sure that something is never going to occur. For example, you write a function which will not return to its end point.
 
 ```ts
-function throwError(errorMsg: string): never {
-  throw new Error(errorMsg);
-}
-
-function keepProcessing(): never {
-  while (true) {
-    console.log("I always does something and never ends.");
+type Currencies = "CAD" | "USD" | "EUR";
+const getRate = (rate: Currencies) => {
+  if (rate === "CAD") {
+    return 1.3;
   }
-}
+  if (rate === "USD") {
+    return 1;
+  }
+  const neverEver: never = rate; // Type 'string' is not assignable to type 'never'.
+  return neverEver;
+};
+getRate("EUR");
 ```
+
+```ts
+type BaseCourse = {
+  name: string;
+};
+interface FreeCourse extends BaseCourse {
+  youtube: string;
+  price?: never;
+}
+interface PaidCourse extends BaseCourse {
+  price: number;
+  youtube?: never;
+}
+type Course = FreeCourse | PaidCourse;
+
+const myCourse: Course = {
+  // Type '{ name: string; youtube: string; price: number; }' is not assignable to type 'PaidCourse'.
+  name: "Typescript",
+  youtube: "https://yotube.com",
+  price: 40,
+};
+```
+
+source: wes bos
 
 ### unknown
 
 > TypeScript 3.0 introduces the unknown type which is the type-safe counterpart of any. Anything is assignable to unknown, but unknown isn’t assignable to anything but itself and any. No operations are permitted on an unknown without first asserting or narrowing to a more specific type.
+
+```ts
+let anyValue: any;
+let unknownValue: unknown;
+
+// Anything is assignable to unknown
+unknownValue = 5;
+unknownValue = "s";
+unknownValue = true;
+
+// unknown isn’t assignable to anything but itself and any
+let newUnknownValue: unknown = unknownValue;
+anyValue = unknownValue;
+let num: number = unknownValue; // Type 'unknown' is not assignable to type 'number'.
+
+// No operations are permitted on an unknown without first asserting or narrowing to a more specific type.
+anyValue();
+if (typeof unknownValue === "function") {
+  unknownValue();
+}
+
+anyValue++;
+if (typeof unknownValue === "number") {
+  unknownValue++;
+}
+
+anyValue.split("");
+if (typeof unknownValue === "string") {
+  unknownValue.split("");
+}
+```
 
 ```ts
 type I1 = unknown & null; // null
@@ -694,11 +754,11 @@ const GenreTypes: { [index: number]: string } = {
   3: "Pop",
 };
 ```
-  
+
 </details>
 
 ## Type Guards
-  
+
 <details>
 <summary>View contents</summary>
 
@@ -786,7 +846,7 @@ Before the type guard is called, the actual type of the variable _comment_ is no
 But after the call, if the code proceeds past the exception (that is the type guard returned true), compiler knows that _comment_ is of the type _string_:
 
 ![Type Predict](./assets/type-predict-2.png)
-  
+
 </details>
 
 ## Tricks
@@ -809,175 +869,176 @@ const operations = createOperations({
 const result = operations["-"](10, 4);
 console.log(result); // 6
 ```
-  
+
 ## Cheatsheet
 
 <details>
 <summary>View contents</summary>
 
 ### `keyof` - Get all of the keys from a given type
-  
+
 ```ts
 type ObjectLiteralType = {
-  first: 1
-  second: 2
-}
+  first: 1;
+  second: 2;
+};
 
-type Result = keyof ObjectLiteralType // Inferred Type: "first" | "second"
-const k: Result = 'second'
+type Result = keyof ObjectLiteralType; // Inferred Type: "first" | "second"
+const k: Result = "second";
 ```
 
 ## Getting the type of a single key
 
 ```ts
 type Obj = {
-  1: 'a'
-  prop: 'c'
-}
+  1: "a";
+  prop: "c";
+};
 
-type Res1 = Obj[1] // Inferred Type: "a"
-const s: Res1 = 'a'
+type Res1 = Obj[1]; // Inferred Type: "a"
+const s: Res1 = "a";
 
-type Res2 = Obj[1 | 'prop'] // Inferred Type: "a" | "c"
-const s2: Res2 = 'c'
+type Res2 = Obj[1 | "prop"]; // Inferred Type: "a" | "c"
+const s2: Res2 = "c";
 ```
 
 ### Getting the values from an object
 
 ```ts
 type ObjVal = {
-  a: 'A'
-  b: 'B'
-}
+  a: "A";
+  b: "B";
+};
 
-type Values = ObjVal[keyof ObjVal] // Inferred Type: "A" | "B"
+type Values = ObjVal[keyof ObjVal]; // Inferred Type: "A" | "B"
 ```
 
 ### Union
 
 ```ts
-type A = 'a' | 'b'
-type B = 'b' | 'c'
-type Union = A | B // Inferred Type: "a" | "b" | "c"
+type A = "a" | "b";
+type B = "b" | "c";
+type Union = A | B; // Inferred Type: "a" | "b" | "c"
 
 // Unions with Objects
 type ObjTypeA = {
-  firstProp: number
-  sharedProp: string
-}
+  firstProp: number;
+  sharedProp: string;
+};
 
 type ObjTypeB = {
-  secondProp: boolean
-  sharedProp: string
-}
+  secondProp: boolean;
+  sharedProp: string;
+};
 
 // Inferred Type: { firstProp: number; secondProp: boolean; sharedProp: string }
-type UnionWithObj = ObjTypeA | ObjTypeB
-const t: UnionWithObj = { firstProp: 10, secondProp: false, sharedProp: 'hi' }
+type UnionWithObj = ObjTypeA | ObjTypeB;
+const t: UnionWithObj = { firstProp: 10, secondProp: false, sharedProp: "hi" };
 ```
 
 ### Intersection - Only what appears in both
 
 ```ts
-type A1 = 'a' | 'b' | 'c'
-type A2 = 'b' | 'c' | 'd'
+type A1 = "a" | "b" | "c";
+type A2 = "b" | "c" | "d";
 
-type Intersection = A1 & A2 // Inferred Type: 'b' | 'c'
+type Intersection = A1 & A2; // Inferred Type: 'b' | 'c'
 ```
 
 ### Conditionals
 
 ```ts
 // Ternaries only
-type Wrap<T> = T extends { length: number } ? [T] : T
+type Wrap<T> = T extends { length: number } ? [T] : T;
 
-type IsAssignableTo<A, B> = A extends B ? true : false
+type IsAssignableTo<A, B> = A extends B ? true : false;
 
 // Type `123` is assignable to type `number`
-type Result1 = IsAssignableTo<123, number> // Inferred Type: true
-type Result2 = IsAssignableTo<number, 123> // Inferred Type: false
+type Result1 = IsAssignableTo<123, number>; // Inferred Type: true
+type Result2 = IsAssignableTo<number, 123>; // Inferred Type: false
 ```
 
 ### Exclude - Removes values from a union
 
 ```ts
-type Ex<T, U> = T extends U ? never : T
+type Ex<T, U> = T extends U ? never : T;
 
-type Ex1 = Ex<1 | 2 | 3, 2> // Inferred Type: 1 | 3
-type Ex2 = Ex<1 | 'a' | 2 | 'b', number> // Inferred Type: 'a' | 'b'
-type Ex3 = Ex<1 | 'a' | 2 | 'b', 1 | 'b' | 'c'> // Inferred Type: 'a' | 2
+type Ex1 = Ex<1 | 2 | 3, 2>; // Inferred Type: 1 | 3
+type Ex2 = Ex<1 | "a" | 2 | "b", number>; // Inferred Type: 'a' | 'b'
+type Ex3 = Ex<1 | "a" | 2 | "b", 1 | "b" | "c">; // Inferred Type: 'a' | 2
 ```
 
 ### Extract - Extracts only specific type of values
 
 ```ts
-type Extra<T, U> = T extends U ? T : never
+type Extra<T, U> = T extends U ? T : never;
 
-type Extra1 = Extra<1 | 'a' | 2 | 'b', number> // Inferred Type: 1 | 2
-type Extra2 = Extra<1 | 'a' | 2 | 'b', 1 | 'b'> // 1 | 'b'
+type Extra1 = Extra<1 | "a" | 2 | "b", number>; // Inferred Type: 1 | 2
+type Extra2 = Extra<1 | "a" | 2 | "b", 1 | "b">; // 1 | 'b'
 ```
 
 ### `Pick<Types, Keys>` - Pick out certain keys from an object type
 
 ```ts
 type ObjLiteralType = {
-  john: 1
-  paul: 2
-  george: 3
-  ringo: 4
-}
+  john: 1;
+  paul: 2;
+  george: 3;
+  ringo: 4;
+};
 
-type P = Pick<ObjLiteralType, 'george' | 'ringo'> // Inferred Type: {george: 2; ringo: 4; }
+type P = Pick<ObjLiteralType, "george" | "ringo">; // Inferred Type: {george: 2; ringo: 4; }
 ```
 
 ### `Omit<Types, Keys>` - Leave out particular properties
 
 ```ts
 type ObjLiteralType1 = {
-  john: 1
-  paul: 2
-  george: 3
-  ringo: 4
-}
+  john: 1;
+  paul: 2;
+  george: 3;
+  ringo: 4;
+};
 
-type O = Omit<ObjLiteralType1, 'george' | 'ringo'> // Inferred Type: {john: 1; paul: 2; }
+type O = Omit<ObjLiteralType1, "george" | "ringo">; // Inferred Type: {john: 1; paul: 2; }
 ```
 
 ### Accept anything but `null` and `undefined` in Generic
 
 ```ts
-function func<T extends {}>(param: T){}
-  
-func(8)
-func(null) // Argument of type 'null' is not assignable to parameter of type '{}'
-func(undefined) // Argument of type 'undefined' is not assignable to parameter of type '{}'
+function func<T extends {}>(param: T) {}
+
+func(8);
+func(null); // Argument of type 'null' is not assignable to parameter of type '{}'
+func(undefined); // Argument of type 'undefined' is not assignable to parameter of type '{}'
 ```
 
 ### Must contain a specific type with extra properties
 
 ```ts
-const greeting = <T extends { name: string }>(obj: T) => {}
-greeting({name: "Foyez", age: 18})
-greeting({ age: 18}) // error
+const greeting = <T extends { name: string }>(obj: T) => {};
+greeting({ name: "Foyez", age: 18 });
+greeting({ age: 18 }); // error
 ```
 
 ### More specify `Union` types
 
 ```ts
 interface User {
-  name: string
-  age: number
+  name: string;
+  age: number;
 }
 
 interface Admin {
-  name: string
-  role: string
+  name: string;
+  role: string;
 }
 
 function logPersion(person: User | Admin) {
-  if(person.age) { // Property 'age' does not exist on type 'User | Admin'. Property 'age' does not exist on type 'Admin'
+  if (person.age) {
+    // Property 'age' does not exist on type 'User | Admin'. Property 'age' does not exist on type 'Admin'
   }
-  if ('role' in person) {
+  if ("role" in person) {
     // work with Admin
   }
 }
@@ -986,10 +1047,10 @@ function logPersion(person: User | Admin) {
 ### String Manipulation
 
 ```ts
-type UppercaseWes = Uppercase<'wes'> // WES
-type LowercaseWes = Lowercase<'Wes'> // wes
-type CapitalizeWes = Capitalize<'wes'> // Wes
-type UncapitalizeWes = Uncapitalize<'WEs'> // wEs
+type UppercaseWes = Uppercase<"wes">; // WES
+type LowercaseWes = Lowercase<"Wes">; // wes
+type CapitalizeWes = Capitalize<"wes">; // Wes
+type UncapitalizeWes = Uncapitalize<"WEs">; // wEs
 ```
 
 </details>
