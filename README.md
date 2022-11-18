@@ -848,9 +848,103 @@ But after the call, if the code proceeds past the exception (that is the type gu
 ![Type Predict](./assets/type-predict-2.png)
 
 </details>
+  
+## Function/Method Overloading
+  
+<details>
+<summary>View contents</summary>
+  
+  ## Function overloading
+  
+  Suppose, you'd like to make a function that it accepts a string or a list of strings and return a string or a list of strings. There are 2 approaches to do this.
+  
+  **Approach 1:** Updating the function signature directly
+  
+  ```ts
+  function greet(person: string | string[]): string | string[] {
+    if (typeof person === 'string') {
+      return `Hello, ${person}!`;
+    } 
+    if (Array.isArray(person)) {
+      return person.map(name => `Hello, ${name}!`);
+    }
+  
+    throw new Error('Unable to greet');
+  }
+  
+  greet('World');          // 'Hello, World!'
+  greet(['Jane', 'Joe']);  // ['Hello, Jane!', 'Hello, Joe!']
+  ```
+  
+  **Approach 2:** Define separately all the ways your function can be invoked. This approach is called function overloading. This approach should be used when the function signature is relatively complex and has multiple types involved.
+  
+  ```ts
+  // Overload signatures
+  function greet(person: string): string;
+  function greet(persons: string[]): string[];
+
+  // Implementation signature
+  function greet(person: unknown): unknown {
+    if (typeof person === 'string') {
+      return `Hello, ${person}!`;
+    }
+    if (Array.isArray(person)) {
+      return person.map(name => `Hello, ${name}!`);
+    }
+  
+    throw new Error('Unable to greet');
+  }
+  
+  greet('World');          // 'Hello, World!'
+  greet(['Jane', 'Joe']);  // ['Hello, Jane!', 'Hello, Joe!']
+  ```
+  
+  The `greet()` function has 2 overload signatures and one implementation signature.
+  
+  ### Method overloading
+  
+  ```ts
+  class Greeter {
+    message: string;
+
+    constructor(message: string) {
+      this.message = message;
+    }
+
+    // Overload signatures
+    greet(person: string): string;
+    greet(persons: string[]): string[];
+
+    // Implementation signature
+    greet(person: unknown): unknown {
+      if (typeof person === 'string') {
+        return `${this.message}, ${person}!`;
+      }
+      if (Array.isArray(person)) {
+        return person.map(name => `${this.message}, ${name}!`);
+      }
+  
+      throw new Error('Unable to greet');
+    }
+  }
+  
+  const hi = new Greeter('Hi');
+ 
+  hi.greet('Angela');       // 'Hi, Angela!'
+  hi.greet(['Pam', 'Jim']); // ['Hi, Pam!', 'Hi, Jim!']
+  ```
+  
+  [Function overloading Do's and Don'ts](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html#function-overloads)
+  
+  source: [A Simple Explanation of Function Overloading in TypeScript](https://dmitripavlutin.com/typescript-function-overloading/)
+  
+</details>
 
 ## Tricks
 
+<details>
+<summary>View contents</summary>
+  
 ### Constrained Identity Function (CIF) <sup>[guide](https://kentcdodds.com/blog/how-to-write-a-constrained-identity-function-in-typescript)</sup>
 
 ```ts
@@ -869,6 +963,8 @@ const operations = createOperations({
 const result = operations["-"](10, 4);
 console.log(result); // 6
 ```
+  
+</details>
 
 ## Cheatsheet
 
