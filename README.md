@@ -552,18 +552,6 @@ type funcReturnType = ReturnType<typeof greetings>; // string
 <details>
 <summary>View contents</summary>
 
-### Type assertions
-
-```ts
-interface Person {
-  name: string;
-  age: number;
-}
-
-const person = {} as Person;
-person.name = "Foyez";
-```
-
 ### The "type" keyword
 
 ```ts
@@ -753,6 +741,34 @@ const GenreTypes: { [index: number]: string } = {
   2: "Rap",
   3: "Pop",
 };
+```
+
+</details>
+
+
+## Type assertions
+
+<details>
+<summary>View contents</summary>
+
+When we want to change a variable from one type to another such as `unknown` to `number` etc, we use Type assertion. We can either use `<>` angular brackets or `as` keywords to do type assertion. But `as` keyword is recommended.
+
+```ts
+let str: unknown = "hello";
+const len = (str as string).length;
+console.log(len);
+```
+
+Typecasting has Runtime support, whereas type assertion has no effect on runtime. It is used by the compiler. 
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+}
+
+const person = {} as Person; // or const person <Person>{}
+person.name = "Foyez";
 ```
 
 </details>
