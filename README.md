@@ -746,6 +746,68 @@ const GenreTypes: { [index: number]: string } = {
 </details>
 
 
+## Union Type
+
+<details>
+<summary>View contents</summary>
+
+### Discriminated Unions
+
+Used to reduce a set of potential objects down to one specific object.
+
+Example 1:
+
+```ts
+type Shape =
+  | { kind: "circle"; radius: number }
+  | { kind: "square"; x: number }
+  | { kind: "triangle"; x: number; y: number };
+
+function area(s: Shape) {
+  switch(s.kind){
+    case 'circle': {
+      // s.x - Property 'x' does not exist on type '{ kind: "circle"; radius: number; }'
+      return Math.PI * s.radius * s.radius;
+    }
+    case 'square': {
+      return s.x * s.x;
+    }
+    default: {
+      return (s.x * s.y) / 2;
+    }
+  }
+}
+
+function height(s: Shape) {
+  if (s.kind === "circle") {
+    return 2 * s.radius;
+  } else {
+    // s.kind: "square" | "triangle"
+    return s.x;
+  }
+}
+```
+
+Example 2:
+
+```ts
+type Engineer = {occupation: 'engineer', age: number}
+type Doctor = {occupation: 'doctor', sex: 'male' | 'female'}
+type Person = {name: string} & (Engineer | Doctor)
+
+function description(person: Person) {
+  const {name, occupation} = person
+
+  if(occupation === 'doctor') {
+    return `${name} is ${person.sex}`
+  }
+
+  return `${name} is ${person.age}`
+}
+```
+
+</details>
+
 ## Type assertions
 
 <details>
